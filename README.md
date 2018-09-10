@@ -52,14 +52,10 @@ Resources:
 ### Outputting Data
 You can use Fn:GetAtt to output data
 ```json
-{
 “Public”: {
   “Description”: “Public IP address of the web server”,
   “Value”: {
-    “Fn::GetAtt”:  [
-      “WenServerHost”,
-      “PublicIp”
-    ]
+    “Fn::GetAtt”: [“WenServerHost”, “PublicIp”]
   }
 }
 ```
