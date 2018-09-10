@@ -2,7 +2,7 @@
 
 This is a simple 30-minute hands-on tutorial on how to build and deploy WordPress on to Amazon EC2 instances in an Auto Scaling group with a multi-AZ Amazon RDS database instance for storage using AWS CloudFormation
 
-## Part 0: Concepts
+## Part 1: Concepts
 
 ### What is CloudFormation?
 It allows you to take what was once traditional hardware infrastructure and convert it into code.
@@ -146,34 +146,7 @@ You can specify IP address ranges both in terms of CIDR ranges as well as indivi
 }
 ```
 
-## Part 1: Let's build our VPC CF Template
-
-### Let's examine the different sections
-```json
-{
-  "AWSTemplateFormatVersion" : "2010-09-09",
-  
-  "Description" : "lorem ipsum",
-  
-  "Parameters" : {
-    ...
-  },  
-
-  "Mappings" : {
-    ...
-  },
-  
-  "Resources" : {
-    ...
-  },
-  
-  "Outputs" : {
-    ...
-  }  
-}
-```
-
-## Part 2: Deploy the VPC CF Template
+## Part 2: (Optional) Let's build and deploy our VPC CF Template
 
 ## Part 3: Let's build our Wordpress CF Template
 
@@ -227,6 +200,10 @@ You can specify IP address ranges both in terms of CIDR ranges as well as indivi
 ```
 
 ## Part 4: Deploy the Wordpress CF Temlate
+
+#### AWS Console > Services > CloudFormation
+- Click on Create Stack
+- Select Upload a template to Amazon S3 and click Next
 - Make sure you are using the correct region
 
 ### Specify Details
@@ -245,6 +222,8 @@ You can specify IP address ranges both in terms of CIDR ranges as well as indivi
 - Subnets: <your subnets here>
 - VpcId: <your vpc here>
 - WebServerCapacity: 1
+
+#### Click on Next > Next > Create > Go to CloudFormation Stacks, Select Stack > Outputs Tab, Configure Wordpress
 
 ## Congratulations, you've just completed this tutorial! Next Steps:
 
