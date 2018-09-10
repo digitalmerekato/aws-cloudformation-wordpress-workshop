@@ -34,9 +34,12 @@ Optional Elements
 JSON
 ```json
 {
-  "Resources" : {
-    "HelloBucket" : {
-      "Type": "AWS::S3:Bucket"
+  "Resources": {
+    "ExampleS3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "Properties": {
+        "BucketName": "jrdalino-cf-workshop-example"
+      }
     }
   }
 }
@@ -45,25 +48,39 @@ JSON
 YAML
 ```yaml
 Resources:
-  HelloBucket:
-    Type: AWS::S3:Bucket
+  ExampleS3Bucket:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: jrdalino-cf-workshop-example
 ```
 
-### Outputting Data
+### Outputting and Concatenating Data
 You can use Fn:GetAtt to output data
 ```json
-“Public”: {
-  “Description”: “Public IP address of the web server”,
-  “Value”: {
-    “Fn::GetAtt”: [“WenServerHost”, “PublicIp”]
+{
+  ...
+  
+  "Public": {
+  "Description": "Public IP address of the web server",
+  "Value": {
+    "Fn::GetAtt": ["WebServerHost", "PublicIp"]
   }
 }
 ```
 
-### Chef & Puppet Integration
-CloudFormation supports Chef & Puppet Integration meaning that you can deploy and configure right down to the application layer
-
-Bootstrap scripts are also supported enabling you to install packages, files, and services on your EC2 Instances by simply describing them in your CloudFormation template
+You can use Fn:Join to concatenate data
+```json
+{
+  ...
+  
+  "Outputs" : {
+    "WebsiteURL" : {
+      "Value" : { "Fn::Join" : ["", ["http://", { "Fn::GetAtt" : [ "WebServer", "PublicDnsName" ]}, "/wordpress" ]]},
+      "Description" : "WordPress Website"
+    }
+  }
+}
+```
 
 ### Stack creation errors
 By default, the “automatic rollback on error” feature is enabled. This will cause all AWS resources that AWS CloudFormation created successfully for a stack up to the point where an error occured to tb deleted.
@@ -85,7 +102,7 @@ You can use AWS CloudFormation to modify and update the resources in your existi
 CloudFormation can be used to create roles in IAM
 CloudFormation can be used to grant EC2 instances access to roles
 
-### VPC's can be created and Customized
+### VPC's can be created and customized
 CloudFormation supports creating:
 - VPCs
 - Subnets 
@@ -104,7 +121,7 @@ Full list here: https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/c
 
 You can specify IP address ranges both in terms of CIDR ranges as well as individual IP addresses for specific instances. You can specify pre-existing EIPs.
 
-### Let's examine the different sections
+### Let's examine the different sections of a CloudFormation Template
 ```json
 {
   "AWSTemplateFormatVersion" : "2010-09-09",
@@ -238,6 +255,11 @@ You can enable VPC Peering using CloudFormation
 ### Route 53 is Supported
 You can create new hosted zones or update existing hosted zones using CloudFormation Templates
 This includes adding or changing items such as A records, Aliases, CNAMEs, etc
+
+### Chef & Puppet Integration
+CloudFormation supports Chef & Puppet Integration meaning that you can deploy and configure right down to the application layer
+
+Bootstrap scripts are also supported enabling you to install packages, files, and services on your EC2 Instances by simply describing them in your CloudFormation template
 
 ### CloudFormation Limits
 https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/cloudformation-limits.html
